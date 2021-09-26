@@ -121,3 +121,8 @@
     max-width: 600px;
     position: relative;
   }
+
+  .carousel .carousel_item, 
+  .carousel .carousel_item--hidden {
+    display: none;
+  }
