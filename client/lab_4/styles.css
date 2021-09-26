@@ -114,3 +114,10 @@
 .signup {
     margin-left: auto;
   }
+
+
+  .carousel {
+    overflow: hidden;
+    max-width: 600px;
+    position: relative;
+  }
