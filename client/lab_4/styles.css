@@ -140,4 +140,5 @@
 
   .carousel .carousel_actions {
     display: flex;
+    justify-content: space-between;
   }
