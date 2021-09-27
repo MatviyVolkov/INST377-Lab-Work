@@ -173,3 +173,8 @@
       transform: opacity linear;
     }
   }
+
+
+  .photo-grid-container .carousel_actions button:focus {
+    color: orange;
+  }
