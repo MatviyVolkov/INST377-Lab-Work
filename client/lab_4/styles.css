@@ -175,6 +175,6 @@
   }
 
 
-  .photo-grid-container .carousel_actions button:focus {
+  .photo-grid-container .carousel__actions button:focus {
     color: orange;
   }
