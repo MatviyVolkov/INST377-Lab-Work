@@ -25,3 +25,17 @@ body {
   max-width: 960px;
   margin-top: 25px;
 }
+
+.form-row {
+  font-size: 16px;
+  font-weight: bold;
+
+  color:black;
+  background-color:white;
+
+  border: none;
+  border-radius: 3px;
+
+  padding: 10px 40px;
+  cursor: pointer;
+}
