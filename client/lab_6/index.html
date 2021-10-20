@@ -1,26 +1,44 @@
 <html>
 
+    <script>
+        const endpoint = 'https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json'
+        
+        const food = [];
+        
+        fetch(endpoint)
+            .then(blob => blob.json())
+            .then(data => food.push(...data))
+        
+        function findMatches(wordToMatch, food) {
+            return food.filter(place => {
+                const regex = new RegExp(wordToMatch, 'gi');
+                return name.food.match(regex) || zip.food.match(regex)
+            }); 
+            
+        }
 
-<script>
-const endpoint = 'https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json'
+        function displayMatches() {
+            const matchArray = findMatches(this.value, food);
+            const html = matchArray.map(place => {
+                const regex = new RegExp(this.value, 'gi');
+                const foodName = name.food.replace(regex, '<span class="hl">${this.value}</span>')
+                const foodZip =  zip.food.replace(regex, '<span class="hl">${this.value}</span>')
+                return `
+                <li>
+                    <span class="name">${foodName},${foodZip}</span>
+                </li>
+                `;
+            });.join('');
+            suggestions.innerHTML = html;
+        }
 
-const food = [];
+        const searchInput = document.querySelector('.search');
+        const suggestions = document.querySelector('.suggestions');
 
-fetch(endpoint)
-    .then(blob => blob.json())
-    .then(data => food.push(...data))
-
-function findMatches(wordToMatch, food) {
-    return food.filter(place => {
-        const regex = new RegExp(wordToMatch, 'gi');
-        return name.food.match(regex) || zip.food.match(regex)
-    }); 
-    
-}
+        searchInput.addEventListener('change', displayMatches)
+        searchInput.addEventListener('keyup', displayMatches)
 
 
 
-</script>
-
-
+        </script>
 </html>
