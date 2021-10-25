@@ -3,16 +3,16 @@ async function windowActions() {
   const request = await fetch(endpoint);
   const restaurant = await request.json();
   const mymap = L.map('mapid').setView([38.989, -76.938], 10);
-  const token = pk.eyJ1IjoibXlhdGh1IiwiYSI6ImNrdjYwNmtxNTUyd2kydnBnMWFqOGxlZzAifQ.jBS2Nkz8Wcg9JIYT_i_kRg
+  const token = 'pk.eyJ1IjoibXlhdGh1IiwiYSI6ImNrdjYwNmtxNTUyd2kydnBnMWFqOGxlZzAifQ.jBS2Nkz8Wcg9JIYT_i_kRg'
 
-  L.tileLayer(`https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=${token}`, {
+  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={AccessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     id: 'mapbox/streets-v11',
     tileSize: 512,
     zoomOffset: -1,
-    accessToken: 'your.mapbox.access.token'
-  }).addTo(mymap);
+    AccessToken: ''pk.eyJ1IjoibXlhdGh1IiwiYSI6ImNrdjYwNmtxNTUyd2kydnBnMWFqOGxlZzAifQ.jBS2Nkz8Wcg9JIYT_i_kRg''
+    }).addTo(mymap);
 
 
 
@@ -48,8 +48,6 @@ async function windowActions() {
   searchInput.addEventListener('keyup', (evt) => { displayMatches(evt); });    
 
 }
-mapInit() 
-
 
 window.onload = windowActions;
 
