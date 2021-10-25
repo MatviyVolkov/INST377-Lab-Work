@@ -3,6 +3,7 @@ async function windowActions() {
   const request = await fetch(endpoint);
   const restaurant = await request.json();
   const mymap = L.map('mapid').setView([38.989, -76.93], 12);
+  const limitedList = filteredList.slice(0, 5);
 
   function mapInit() {
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -17,44 +18,48 @@ async function windowActions() {
   }
   mapInit()
 
- 
+  limitedList.forEach((place, index) => {
+    const coordinates = place.hasOwnProperty('geocoded_column_1');
+    if (coordinates) {
+      const latlong = place.geocoded_column_1.coordinates;
+      const marker = latlong.reverse();
+      markers.push(L.marker(marker).addTo(mymap));
+      if (index === 0) mymap.setView(marker);
+    }
+  });
+  return limitedList
 
-  function findMatches(wordToMatch, restaurant) {
-    return restaurant.filter(place => {
-      const regex = new RegExp(wordToMatch, 'gi');
-      return place.name.match(regex) || place.zip.match(regex);
-    });
+  function findMatches(zip, data, mymap) {
+    const filteredList = data.filter((place) => place.zip.startsWith(zip));
   }
 
   function displayMatches(event) {
-    const matchArray = findMatches(event.target.value, restaurant);
-    const html = matchArray.map(place => {
-      const regex = new RegExp(event.target.value, 'gi');
-      const placeName = place.name;
-      const addressName = place.address_line_1;
-      const cityName = place.city;
-      const zipName = place.zip;
-      return `
-      <li>
-      <span class="name">${placeName}</span> 
-      <span class="name">${addressName}</span>
-      <span class="name">${cityName}</span>
-      <span class="name">${zipName}</span>
-      </li>
-      `;
-    }).join('');
-    suggestions.innerHTML = html;
-  }
+    markers.forEach((marker) => {
+      marker.remove();
+    });
+    if (event.target.value.length !== 0) {
+      const matchArray = findMatches(event.target.value, data, mymap);
+      console.log(matchArray);
+      const html = matchArray
+        .map((place) => `<li class= "box">
+        <span class="name"> ${place.name} </span><br>
+        <i>${place.address_line_1} <br>
+        ${place.zip}</i>
+        </li>`).join('');
+      suggestions.innerHTML = html;
+    } else {
+      suggestions.innerHTML = '';
+    }
+  }}
 
-  function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  }
-
-  const searchInput = document.querySelector('.search');
-  const suggestions = document.querySelector('.suggestions');
-
-  searchInput.addEventListener('change', displayMatches);
-  searchInput.addEventListener('keyup', (evt) => { displayMatches(evt); });
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-window.onload = windowActions;
+const searchInput = document.querySelector('.search');
+const suggestions = document.querySelector('.suggestions');
+
+// searchInput.addEventListener('change', displayMatches);
+// searchInput.addEventListener('keyup', (evt) => { displayMatches(evt); });
+
+// window.onload = windowActions;
