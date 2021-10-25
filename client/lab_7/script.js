@@ -14,9 +14,9 @@ async function windowActions() {
       zoomOffset: -1,
       accessToken: 'pk.eyJ1IjoibXlhdGh1IiwiYSI6ImNrdjYwNmtxNTUyd2kydnBnMWFqOGxlZzAifQ.jBS2Nkz8Wcg9JIYT_i_kRg'
     }).addTo(mymap);
-    return mymap
+    return mymap;
   }
-  mapInit()
+  mapInit();
 
   function removeMarkers(mymap){
     mymap.eachLayer(function(layer){
@@ -25,7 +25,7 @@ async function windowActions() {
         console.log(layer);
         mymap.removeLayer(layer);
       }
-    })
+    });
   }
 
   function findMatches(wordToMatch, restaurant) {
@@ -43,16 +43,16 @@ async function windowActions() {
         document.querySelector('.suggestions').innerHTML = '';
       } else {
         itemCounter += 1;
-      const regex = new RegExp(event.target.value, 'gi');
-      const placeName = place.name;
-      const addressName = place.address_line_1;
-      const cityName = place.city;
-      const zipName = place.zip;
-      const point = place.geocoded_column_1;
-      const latLong = point.coordinates;
-      const marker = latLong.reverse();
-      L.marker(marker).addTo(mymap);
-      return `
+        const regex = new RegExp(event.target.value, 'gi');
+        const placeName = place.name;
+        const addressName = place.address_line_1;
+        const cityName = place.city;
+        const zipName = place.zip;
+        const point = place.geocoded_column_1;
+        const latLong = point.coordinates;
+        const marker = latLong.reverse();
+        L.marker(marker).addTo(mymap);
+        return `
       <li>
       <span class="name">${placeName}</span> 
       <span class="name">${addressName}</span>
@@ -60,8 +60,8 @@ async function windowActions() {
       <span class="name">${zipName}</span>
       </li>
       `;
-    }
-  }).join('');
+      }
+    }).join('');
     suggestions.innerHTML = html;
     itemCounter = 0;
   }
