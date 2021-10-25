@@ -26,20 +26,13 @@ async function windowActions() {
 
   function displayMatches(event) {
     const matchArray = findMatches(event.target.value, restaurant);
-    const html = matchArray.map(place => {
-      const regex = new RegExp(event.target.value, 'gi');
-      const placeName = place.name;
-      const addressName = place.address_line_1;
-      const cityName = place.city;
-      const zipName = place.zip;
+    matchArray = matchArray.slice(0, 5);
+    const html = matchArray.map((place) => {
       return `
-      <li>
-      <span class="name">${placeName}</span> 
-      <span class="name">${addressName}</span>
-      <span class="name">${cityName}</span>
-      <span class="name">${zipName}</span>
-      </li>
-      `;
+      <li><div>${place.name}</div></li>
+      <div>${place.address_line_1}</div>
+      <div>${place.city} - ${place.zip}</div>
+      <br>  `;
     }).join('');
     suggestions.innerHTML = html;
   }
