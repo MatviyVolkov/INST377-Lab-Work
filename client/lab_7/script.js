@@ -45,9 +45,11 @@ async function windowActions() {
   const suggestions = document.querySelector('.suggestions');
 
   searchInput.addEventListener('change', displayMatches);
-  searchInput.addEventListener('keyup', (evt) => { displayMatches(evt); });
+  searchInput.addEventListener('keyup', (evt) => { displayMatches(evt); });    
 
 }
+mapInit() 
+
 
 window.onload = windowActions;
 
