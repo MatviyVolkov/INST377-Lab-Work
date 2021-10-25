@@ -18,6 +18,16 @@ async function windowActions() {
   }
   mapInit()
 
+  function removeMarkers(mymap){
+    mymap.eachLayer(function(layer){
+      if(Object.keys(layer.options).length === 0)
+      {
+        console.log(layer);
+        mymap.removeLayer(layer);
+      }
+    })
+  }
+
   function findMatches(wordToMatch, restaurant) {
     return restaurant.filter(place => {
       const regex = new RegExp(wordToMatch, 'gi');
@@ -25,9 +35,9 @@ async function windowActions() {
     });
   }
 
-
   function displayMatches(event) {
     const matchArray = findMatches(event.target.value, restaurant);
+    removeMarkers(mymap);
     const html = matchArray.map(place => {
       if (!event.target.value || itemCounter > 4) {
         document.querySelector('.suggestions').innerHTML = '';
