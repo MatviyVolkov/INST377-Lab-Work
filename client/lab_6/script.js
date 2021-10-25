@@ -39,12 +39,6 @@ async function windowActions() {
 
   searchInput.addEventListener('change', displayMatches);
   searchInput.addEventListener('keyup', (evt) => { displayMatches(evt); });
-
 }
 
 window.onload = windowActions;
-
-
-
-
-
