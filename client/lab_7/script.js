@@ -14,8 +14,13 @@ async function windowActions() {
     AccessToken: ''pk.eyJ1IjoibXlhdGh1IiwiYSI6ImNrdjYwNmtxNTUyd2kydnBnMWFqOGxlZzAifQ.jBS2Nkz8Wcg9JIYT_i_kRg''
     }).addTo(mymap);
 
-
-
+    function removeMarker(mymap){
+      mymap.eachLayer(function(layer){
+        if(Object.keys(layer.options).length === 0)
+        {
+          console.log(layer);
+          mymap.removeLayer(layer);
+        }})};
 
   function findMatches(wordToMatch, restaurant) {
     return restaurant.filter(place => {
@@ -25,17 +30,26 @@ async function windowActions() {
   }
 
   function displayMatches(event) {
-    const matchArray = findMatches(event.target.value, restaurant);
-    matchArray = matchArray.slice(0, 5);
-    const html = matchArray.map((place) => {
-      return `
-      <li><div>${place.name}</div></li>
-      <div>${place.address_line_1}</div>
-      <div>${place.city} - ${place.zip}</div>
-      <br>  `;
-    }).join('');
+    const matchArray = findMatches(event.target.value, cities, mymap);
+    sliceArray = matchArray.slice(0, 5);
+    removeMarkers(mymap);
+    sliceArray.forEach((place) => {
+      const point = place.geocoded_column_1;
+      if (!point || !point.coordinates) {
+        console.log(place);
+        return;
+    })
     suggestions.innerHTML = html;
+    const coordinates = point.coordinates;
+    const marker = latlong.reverse();
+    L.marker(marker).addTo(mymap);
   }
+
+  const html = sliceArray.map((place) => { return `
+  <li><div>${place.name}</div></li>
+  <div>${place.address_line_1}</div>
+  <div>${place.city} - ${place.zip}</div> `
+}).join('')
 
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
