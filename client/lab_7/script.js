@@ -25,6 +25,7 @@ async function windowActions() {
     });
   }
 
+
   function displayMatches(event) {
     const matchArray = findMatches(event.target.value, restaurant);
     const html = matchArray.map(place => {
