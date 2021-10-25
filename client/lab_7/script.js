@@ -48,6 +48,8 @@ async function windowActions() {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
+
+
   const searchInput = document.querySelector('.search');
   const suggestions = document.querySelector('.suggestions');
 
