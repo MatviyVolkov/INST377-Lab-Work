@@ -17,53 +17,34 @@ async function windowActions() {
   }
   mapInit()
 
-  function slicedMaches(event, data) {
-    const matchArray = findMatches(event.target.value, data).slice(0, 5);
-    return matchArray;
-  }
+ 
 
   function findMatches(wordToMatch, restaurant) {
     return restaurant.filter(place => {
       const regex = new RegExp(wordToMatch, 'gi');
-      return place.zip.match(regex);
+      return place.name.match(regex) || place.zip.match(regex);
     });
   }
 
-  function removeMarkers(newmap) {
-    newmap.eachLayer((layer) => {
-      if (Object.keys(layer.options).length === 0) {
-        console.log(layer);
-        newmap.removeLayer(layer);
-      }
-    });
-    
-    function addMarker(matchArray,mymap) {
-      removeMarkers(mymap);
-      matchArray.forEach((element) => {
-        console.log(element.geocoded_column_1.coordinates);
-        const point = element.geocoded_column_1;
-        if (!point || !point.coordinates) {
-          return map();
-        }
-        const marker = latLong.reverse();
-        const coordinates = point.coordinates;
-        L.marker(marker).addTo(mymap);
-      });
-
   function displayMatches(event) {
-    return ` 
-    <li>
-    <div class="box">
-    <span class="name"><b>${nameName}</b></span> 
-    <br>
-    <span class="name"> <em>${addressName}</em></span>
-    <br>
-    </div>
-    </li>
-    `;}.join('');
+    const matchArray = findMatches(event.target.value, restaurant);
+    const html = matchArray.map(place => {
+      const regex = new RegExp(event.target.value, 'gi');
+      const placeName = place.name;
+      const addressName = place.address_line_1;
+      const cityName = place.city;
+      const zipName = place.zip;
+      return `
+      <li>
+      <span class="name">${placeName}</span> 
+      <span class="name">${addressName}</span>
+      <span class="name">${cityName}</span>
+      <span class="name">${zipName}</span>
+      </li>
+      `;
+    }).join('');
     suggestions.innerHTML = html;
-
-  
+  }
 
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
