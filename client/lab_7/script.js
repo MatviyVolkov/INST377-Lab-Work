@@ -44,6 +44,9 @@ async function windowActions() {
   
   window.onload = windowActions;
   
+
+  const mymap = L.map('mapid').setView([40, -70], 10);
+
   
   
   
