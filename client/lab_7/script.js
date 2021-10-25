@@ -2,7 +2,7 @@ async function windowActions() {
   const endpoint = 'https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json';
   const request = await fetch(endpoint);
   const restaurant = await request.json();
-  const mymap = L.map('mapid').setView([51.505, -0.09], 13);
+  const mymap = L.map('mapid').setView([38.989, -76.93], 12);
 
   function mapInit() {
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -25,8 +25,8 @@ async function windowActions() {
   }
 
   function displayMatches(event) {
-    const matchArray = findMatches(event.target.value, restaurant);
-    const html = matchArray.map(place => {
+    const matchArray = findMatches(event.target.value, resultData);
+    const html = matchArray.map((place) => {
       const regex = new RegExp(event.target.value, 'gi');
       const placeName = place.name;
       const addressName = place.address_line_1;
@@ -47,8 +47,6 @@ async function windowActions() {
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
-
-
 
   const searchInput = document.querySelector('.search');
   const suggestions = document.querySelector('.suggestions');
