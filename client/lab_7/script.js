@@ -17,16 +17,21 @@ async function windowActions() {
   }
   mapInit()
 
+  function slicedMaches(event, data) {
+    const matchArray = findMatches(event.target.value, data).slice(0, 5);
+    return matchArray;
+  }
+
   function findMatches(wordToMatch, restaurant) {
     return restaurant.filter(place => {
       const regex = new RegExp(wordToMatch, 'gi');
-      return place.name.match(regex) || place.zip.match(regex);
+      return place.zip.match(regex);
     });
   }
 
   function displayMatches(event) {
-    const matchArray = findMatches(event.target.value, resultData);
-    const html = matchArray.map((place) => {
+    const matchArray = findMatches(event.target.value, restaurant);
+    const html = matchArray.map(place => {
       const regex = new RegExp(event.target.value, 'gi');
       const placeName = place.name;
       const addressName = place.address_line_1;
